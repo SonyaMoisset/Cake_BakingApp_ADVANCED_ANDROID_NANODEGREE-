@@ -1,4 +1,7 @@
 package com.sonyamoisset.android.cake.vo;
 
-public class Status {
+public enum Status {
+    SUCCESS,
+    ERROR,
+    LOADING
 }
