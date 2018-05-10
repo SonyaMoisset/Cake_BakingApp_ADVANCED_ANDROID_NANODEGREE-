@@ -23,8 +23,7 @@ public class AppExecutors {
 
     @Inject
     public AppExecutors() {
-        this(Executors.newSingleThreadExecutor(),
-                new MainThreadExecutor());
+        this(Executors.newSingleThreadExecutor(), new MainThreadExecutor());
     }
 
     public Executor diskIO() {
@@ -36,11 +35,15 @@ public class AppExecutors {
     }
 
     private static class MainThreadExecutor implements Executor {
-        private final android.os.Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+        private final Handler handler;
+
+        MainThreadExecutor() {
+            handler = new Handler(Looper.getMainLooper());
+        }
 
         @Override
-        public void execute(@NonNull Runnable command) {
-            mainThreadHandler.post(command);
+        public void execute(@NonNull Runnable runnable) {
+            handler.post(runnable);
         }
     }
 }
