@@ -11,8 +11,10 @@ public class Resource<T> {
 
     @NonNull
     public final Status status;
+
     @Nullable
     public final String message;
+
     @Nullable
     public final T data;
 
