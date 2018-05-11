@@ -6,10 +6,12 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 
 import com.sonyamoisset.android.cake.R;
 import com.sonyamoisset.android.cake.databinding.ActivityRecipeBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
+import com.sonyamoisset.android.cake.ui.common.ClickHandler;
 import com.sonyamoisset.android.cake.vo.Status;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends AppCompatActivity implements ClickHandler<Recipe> {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -40,9 +42,17 @@ public class RecipeActivity extends AppCompatActivity {
         populateViewModel();
     }
 
+    @Override
+    public void onClick(Recipe recipe) {
+        Log.d("recipe", recipe.getName());
+        Log.d("ingredients", String.valueOf(recipe.getIngredients()));
+        Log.d("steps", String.valueOf(recipe.getSteps()));
+    }
+
     private void populateRecyclerView() {
+        recipeAdapter = new RecipeAdapter(this);
         binding.recyclerViewRecipeList.setLayoutManager(new LinearLayoutManager(this));
-        recipeAdapter = new RecipeAdapter(recipes);
+        binding.recyclerViewRecipeList.setHasFixedSize(true);
         binding.recyclerViewRecipeList.setAdapter(recipeAdapter);
     }
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.sonyamoisset.android.cake.R;
 import com.sonyamoisset.android.cake.databinding.ActivityRecipeListItemBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
+import com.sonyamoisset.android.cake.ui.common.ClickHandler;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     private List<Recipe> recipes;
     private ActivityRecipeListItemBinding binding;
+    private final ClickHandler<Recipe> recipeClickHandler;
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
         final ActivityRecipeListItemBinding binding;
@@ -32,8 +34,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
     }
 
-    RecipeAdapter(List<Recipe> recipes) {
-        this.recipes = recipes;
+    RecipeAdapter(ClickHandler<Recipe> clickHandler) {
+        recipeClickHandler = clickHandler;
     }
 
     public void setRecipeList(List<Recipe> list) {
@@ -46,6 +48,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.activity_recipe_list_item, parent, false);
+        binding.setHandler(recipeClickHandler);
         return new RecipeViewHolder(binding);
     }
 
