@@ -1,6 +1,4 @@
-package com.sonyamoisset.android.cake.di.module;
-
-import com.sonyamoisset.android.cake.ui.main.RecipeActivity;
+package com.sonyamoisset.android.cake.ui.main;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

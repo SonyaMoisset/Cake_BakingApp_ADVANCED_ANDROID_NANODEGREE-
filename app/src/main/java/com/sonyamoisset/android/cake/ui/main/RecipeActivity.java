@@ -23,6 +23,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+
     private ActivityRecipeBinding binding;
     private RecipeAdapter recipeAdapter;
     private List<Recipe> recipes = new ArrayList<>();

@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.sonyamoisset.android.cake.CakeApp;
 import com.sonyamoisset.android.cake.di.module.AppModule;
-import com.sonyamoisset.android.cake.di.module.RecipeActivityModule;
+import com.sonyamoisset.android.cake.di.module.BuildersModule;
 
 import javax.inject.Singleton;
 
@@ -16,7 +16,7 @@ import dagger.android.AndroidInjectionModule;
 @Component(modules = {
         AndroidInjectionModule.class,
         AppModule.class,
-        RecipeActivityModule.class
+        BuildersModule.class
 })
 public interface AppComponent {
 
