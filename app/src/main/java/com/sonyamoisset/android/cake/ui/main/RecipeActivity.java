@@ -2,17 +2,14 @@ package com.sonyamoisset.android.cake.ui.main;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.sonyamoisset.android.cake.R;
+import com.sonyamoisset.android.cake.databinding.ActivityRecipeBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
-import com.sonyamoisset.android.cake.network.SimpleIdlingResource;
 import com.sonyamoisset.android.cake.vo.Status;
 
 import java.util.ArrayList;
@@ -20,29 +17,22 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
 public class RecipeActivity extends AppCompatActivity {
 
-    @BindView(R.id.recycler_view_recipe_list)
-    protected RecyclerView recipeRecyclerView;
-
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    private ActivityRecipeBinding binding;
     private RecipeAdapter recipeAdapter;
     private List<Recipe> recipes = new ArrayList<>();
-    private IdlingResource idlingResource;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe);
 
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe);
 
         populateRecyclerView();
 
@@ -50,9 +40,9 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     private void populateRecyclerView() {
-        recipeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recipeAdapter = new RecipeAdapter(this, recipes);
-        recipeRecyclerView.setAdapter(recipeAdapter);
+        binding.recyclerViewRecipeList.setLayoutManager(new LinearLayoutManager(this));
+        recipeAdapter = new RecipeAdapter(recipes);
+        binding.recyclerViewRecipeList.setAdapter(recipeAdapter);
     }
 
     private void populateViewModel() {
@@ -62,7 +52,6 @@ public class RecipeActivity extends AppCompatActivity {
             if (recipesViews.status == Status.SUCCESS) {
                 recipeAdapter.setRecipeList(recipesViews.data);
             }
-            Log.d("data", String.valueOf(recipesViews.data));
         });
     }
 }
