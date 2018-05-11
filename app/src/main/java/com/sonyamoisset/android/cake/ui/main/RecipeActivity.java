@@ -2,6 +2,7 @@ package com.sonyamoisset.android.cake.ui.main;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.sonyamoisset.android.cake.R;
 import com.sonyamoisset.android.cake.databinding.ActivityRecipeBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
 import com.sonyamoisset.android.cake.ui.common.ClickHandler;
+import com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity;
 import com.sonyamoisset.android.cake.vo.Status;
 
 import java.util.ArrayList;
@@ -47,6 +49,9 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
         Log.d("recipe", recipe.getName());
         Log.d("ingredients", String.valueOf(recipe.getIngredients()));
         Log.d("steps", String.valueOf(recipe.getSteps()));
+
+        Intent intent = new Intent(this, RecipeDetailActivity.class);
+        startActivity(intent);
     }
 
     private void populateRecyclerView() {

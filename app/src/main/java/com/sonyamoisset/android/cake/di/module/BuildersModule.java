@@ -1,5 +1,7 @@
 package com.sonyamoisset.android.cake.di.module;
 
+import com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity;
+import com.sonyamoisset.android.cake.ui.detail.module.RecipeDetailActivityModule;
 import com.sonyamoisset.android.cake.ui.main.RecipeActivity;
 import com.sonyamoisset.android.cake.ui.main.RecipeActivityModule;
 
@@ -11,4 +13,7 @@ public abstract class BuildersModule {
 
     @ContributesAndroidInjector(modules = RecipeActivityModule.class)
     abstract RecipeActivity bindRecipeActivity();
+
+    @ContributesAndroidInjector(modules = RecipeDetailActivityModule.class)
+    abstract RecipeDetailActivity bindRecipeDetailActivity();
 }
