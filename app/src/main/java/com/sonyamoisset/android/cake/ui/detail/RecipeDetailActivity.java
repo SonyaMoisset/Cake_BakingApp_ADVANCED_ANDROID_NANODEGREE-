@@ -35,7 +35,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements HasSuppor
         if (savedInstanceState == null) {
             int recipeId = getIntent().getIntExtra(RECIPE_ID, 0);
 
-            RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.forRecipe(recipeId);
+            RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.recipeDetailFragmentFor(recipeId);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.activity_recipe_detail_container, recipeDetailFragment)

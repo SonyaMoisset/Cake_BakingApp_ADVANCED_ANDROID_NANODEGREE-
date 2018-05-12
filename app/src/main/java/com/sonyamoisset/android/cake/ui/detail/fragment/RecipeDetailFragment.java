@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,7 @@ import com.sonyamoisset.android.cake.databinding.FragmentRecipeDetailBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
 import com.sonyamoisset.android.cake.ui.detail.RecipeDetailViewModel;
 import com.sonyamoisset.android.cake.ui.detail.adapter.IngredientAdapter;
+import com.sonyamoisset.android.cake.ui.detail.adapter.StepAdapter;
 
 import javax.inject.Inject;
 
@@ -32,6 +31,7 @@ public class RecipeDetailFragment extends Fragment {
     private FragmentRecipeDetailBinding binding;
     private RecipeDetailViewModel recipeDetailViewModel;
     private IngredientAdapter ingredientAdapter;
+    private StepAdapter stepAdapter;
     private Recipe recipe;
 
     private static final String RECIPE_ID = "recipe_id";
@@ -51,7 +51,8 @@ public class RecipeDetailFragment extends Fragment {
         binding =
                 DataBindingUtil.inflate(inflater,
                         R.layout.fragment_recipe_detail, container, false);
-        binding.fragmentRecipeDetailRecyclerView.setHasFixedSize(true);
+        binding.fragmentRecipeIngredientsDetailRecyclerView.setHasFixedSize(true);
+        binding.fragmentRecipeStepsDetailRecyclerView.setHasFixedSize(true);
         return binding.getRoot();
     }
 
@@ -61,7 +62,10 @@ public class RecipeDetailFragment extends Fragment {
         final int recipeId = getArguments().getInt(RECIPE_ID) - 1;
 
         ingredientAdapter = new IngredientAdapter();
-        binding.fragmentRecipeDetailRecyclerView.setAdapter(ingredientAdapter);
+        binding.fragmentRecipeIngredientsDetailRecyclerView.setAdapter(ingredientAdapter);
+
+        stepAdapter = new StepAdapter();
+        binding.fragmentRecipeStepsDetailRecyclerView.setAdapter(stepAdapter);
 
         recipeDetailViewModel =
                 ViewModelProviders.of(getActivity(), viewModelFactory)
@@ -80,9 +84,10 @@ public class RecipeDetailFragment extends Fragment {
         getActivity().setTitle(recipe.getName());
 
         ingredientAdapter.setIngredientList(recipe.getIngredients());
+        stepAdapter.setStepList(recipe.getSteps());
     }
 
-    public static RecipeDetailFragment forRecipe(int recipeId) {
+    public static RecipeDetailFragment recipeDetailFragmentFor(int recipeId) {
         RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
         Bundle args = new Bundle();
         args.putInt(RECIPE_ID, recipeId);
