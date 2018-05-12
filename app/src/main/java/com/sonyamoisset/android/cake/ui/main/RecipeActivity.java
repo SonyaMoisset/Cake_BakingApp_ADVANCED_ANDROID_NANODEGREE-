@@ -23,6 +23,8 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
+import static com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity.RECIPE_ID;
+
 public class RecipeActivity extends AppCompatActivity implements ClickHandler<Recipe> {
 
     @Inject
@@ -30,6 +32,7 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
 
     private ActivityRecipeBinding binding;
     private RecipeAdapter recipeAdapter;
+    private RecipeViewModel recipeViewModel;
     private List<Recipe> recipes = new ArrayList<>();
 
     @Override
@@ -40,7 +43,6 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe);
 
         populateRecyclerView();
-
         populateViewModel();
     }
 
@@ -51,6 +53,7 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
         Log.d("steps", String.valueOf(recipe.getSteps()));
 
         Intent intent = new Intent(this, RecipeDetailActivity.class);
+        intent.putExtra(RECIPE_ID, recipe.getId());
         startActivity(intent);
     }
 
@@ -62,9 +65,9 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
     }
 
     private void populateViewModel() {
-        RecipeViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(RecipeViewModel.class);
+        recipeViewModel = ViewModelProviders.of(this, viewModelFactory).get(RecipeViewModel.class);
 
-        viewModel.getRecipes().observe(this, recipesViews -> {
+        recipeViewModel.getRecipes().observe(this, recipesViews -> {
             if (recipesViews.status == Status.SUCCESS) {
                 recipeAdapter.setRecipeList(recipesViews.data);
             }

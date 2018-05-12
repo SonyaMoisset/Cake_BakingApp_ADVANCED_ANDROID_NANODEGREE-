@@ -13,8 +13,8 @@ import javax.inject.Inject;
 
 public class RecipeViewModel extends ViewModel {
 
-    private LiveData<Resource<List<Recipe>>> recipes;
     private final RecipeRepository recipeRepository;
+    private LiveData<Resource<List<Recipe>>> recipes;
 
     @Inject
     public RecipeViewModel(RecipeRepository recipeRepository) {

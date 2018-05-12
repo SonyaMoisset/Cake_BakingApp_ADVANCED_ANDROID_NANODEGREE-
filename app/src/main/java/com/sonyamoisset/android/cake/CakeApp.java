@@ -15,7 +15,6 @@ public class CakeApp extends Application implements HasActivityInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
