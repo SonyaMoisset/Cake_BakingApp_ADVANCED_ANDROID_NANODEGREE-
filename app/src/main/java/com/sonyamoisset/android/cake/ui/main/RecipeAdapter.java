@@ -17,20 +17,20 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
+    private ActivityRecipeListItemBinding activityRecipeListItemBinding;
     private List<Recipe> recipes;
-    private ActivityRecipeListItemBinding binding;
     private final ClickHandler<Recipe> recipeClickHandler;
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
-        final ActivityRecipeListItemBinding binding;
+        final ActivityRecipeListItemBinding activityRecipeListItemBinding;
 
         RecipeViewHolder(ActivityRecipeListItemBinding binding) {
             super(binding.getRoot());
-            this.binding = binding;
+            this.activityRecipeListItemBinding = binding;
         }
 
         void bind(Recipe recipe) {
-            binding.setRecipe(recipe);
+            activityRecipeListItemBinding.setRecipe(recipe);
         }
     }
 
@@ -46,25 +46,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        binding =
+
+        activityRecipeListItemBinding =
                 DataBindingUtil.inflate(layoutInflater,
                         R.layout.activity_recipe_list_item, parent, false);
-        binding.setHandler(recipeClickHandler);
-        return new RecipeViewHolder(binding);
+        activityRecipeListItemBinding.setHandler(recipeClickHandler);
+
+        return new RecipeViewHolder(activityRecipeListItemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+
         Recipe recipe = recipes.get(position);
         holder.bind(recipe);
 
         if (!TextUtils.isEmpty(recipe.getImage())) {
             Picasso.get()
                     .load(recipe.getImage())
-                    .into(binding.activityRecipeListItemPlaceholderImage);
+                    .into(activityRecipeListItemBinding.activityRecipeListItemPlaceholderImage);
         } else {
-            binding.activityRecipeListItemPlaceholderImage.setImageResource(R.drawable.cake);
+            activityRecipeListItemBinding.
+                    activityRecipeListItemPlaceholderImage.setImageResource(R.drawable.cake);
         }
 
     }

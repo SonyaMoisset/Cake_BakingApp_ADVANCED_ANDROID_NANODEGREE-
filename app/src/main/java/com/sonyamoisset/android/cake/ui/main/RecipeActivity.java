@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.sonyamoisset.android.cake.R;
@@ -16,9 +15,6 @@ import com.sonyamoisset.android.cake.ui.common.ClickHandler;
 import com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity;
 import com.sonyamoisset.android.cake.vo.Status;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
@@ -27,31 +23,26 @@ import static com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity.RECIP
 
 public class RecipeActivity extends AppCompatActivity implements ClickHandler<Recipe> {
 
+    private ActivityRecipeBinding activityRecipeBinding;
+    private RecipeAdapter recipeAdapter;
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    private ActivityRecipeBinding binding;
-    private RecipeAdapter recipeAdapter;
-    private RecipeViewModel recipeViewModel;
-    private List<Recipe> recipes = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe);
+        activityRecipeBinding = DataBindingUtil.
+                setContentView(this, R.layout.activity_recipe);
 
         populateRecyclerView();
-        populateViewModel();
+        populateUI();
     }
 
     @Override
     public void onClick(Recipe recipe) {
-        Log.d("recipe", recipe.getName());
-        Log.d("ingredients", String.valueOf(recipe.getIngredients()));
-        Log.d("steps", String.valueOf(recipe.getSteps()));
-
         Intent intent = new Intent(this, RecipeDetailActivity.class);
         intent.putExtra(RECIPE_ID, recipe.getId());
         startActivity(intent);
@@ -59,16 +50,16 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
 
     private void populateRecyclerView() {
         recipeAdapter = new RecipeAdapter(this);
-        binding.recyclerViewRecipeList.setLayoutManager(new LinearLayoutManager(this));
-        binding.recyclerViewRecipeList.setHasFixedSize(true);
-        binding.recyclerViewRecipeList.setAdapter(recipeAdapter);
+        activityRecipeBinding.recyclerViewRecipeList.setHasFixedSize(true);
+        activityRecipeBinding.recyclerViewRecipeList.setAdapter(recipeAdapter);
     }
 
-    private void populateViewModel() {
-        recipeViewModel = ViewModelProviders.of(this, viewModelFactory).get(RecipeViewModel.class);
+    private void populateUI() {
+        RecipeViewModel recipeViewModel = ViewModelProviders.
+                of(this, viewModelFactory).get(RecipeViewModel.class);
 
         recipeViewModel.getRecipes().observe(this, recipesViews -> {
-            if (recipesViews.status == Status.SUCCESS) {
+            if (recipesViews != null && recipesViews.status == Status.SUCCESS) {
                 recipeAdapter.setRecipeList(recipesViews.data);
             }
         });

@@ -17,7 +17,7 @@ public class RecipeViewModel extends ViewModel {
     private LiveData<Resource<List<Recipe>>> recipes;
 
     @Inject
-    public RecipeViewModel(RecipeRepository recipeRepository) {
+    RecipeViewModel(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
 
