@@ -11,24 +11,41 @@ import com.sonyamoisset.android.cake.repository.RecipeRepository;
 import com.sonyamoisset.android.cake.vo.Resource;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
 public class RecipeDetailViewModel extends ViewModel {
 
     private final RecipeRepository recipeRepository;
-    private LiveData<Resource<List<Recipe>>> recipes;
-    private MediatorLiveData<Step> step;
-    private int recipeId;
+    private MediatorLiveData<Step> steps;
     private MutableLiveData<Integer> stepId;
+    private LiveData<Resource<List<Recipe>>> recipes;
+    private int recipeId;
 
     @Inject
-    public RecipeDetailViewModel(RecipeRepository recipeRepository) {
+    RecipeDetailViewModel(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
 
-    public LiveData<Resource<List<Recipe>>> getRecipes() {
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
 
+    public void nextStepId() {
+        stepId.setValue(getStepId().getValue() + 1);
+    }
+
+    public void previousStepId() {
+        stepId.setValue(getStepId().getValue() - 1);
+    }
+
+    public int getStepSize() {
+        return Objects.requireNonNull(Objects.requireNonNull(recipes.getValue()).data)
+                .get(recipeId).getSteps().size();
+    }
+
+    public LiveData<Resource<List<Recipe>>> getRecipes() {
         if (recipes == null) {
             recipes = recipeRepository.getRecipes();
         }
@@ -36,18 +53,14 @@ public class RecipeDetailViewModel extends ViewModel {
         return recipes;
     }
 
-    public void setRecipeId(int recipeId) {
-        this.recipeId = recipeId;
-    }
-
-    public MediatorLiveData<Step> getStep() {
-        if (step == null) {
+    public LiveData<Step> getSteps() {
+        if (steps == null) {
             setStep();
         }
-        return step;
+        return steps;
     }
 
-    public MutableLiveData<Integer> getStepId() {
+    public LiveData<Integer> getStepId() {
         if (stepId == null) {
             stepId = new MutableLiveData<>();
             stepId.setValue(0);
@@ -57,23 +70,26 @@ public class RecipeDetailViewModel extends ViewModel {
     }
 
     private void setStep() {
-        if (step == null) {
-            step = new MediatorLiveData<>();
+        if (steps == null) {
+            steps = new MediatorLiveData<>();
         }
 
         LiveData<Resource<List<Recipe>>> recipesLiveData = getRecipes();
         LiveData<Integer> stepIdLiveData = getStepId();
 
-        step.addSource(recipesLiveData, recipes -> {
-            if (recipes.data != null) {
-                step.setValue(recipes.data.get(recipeId).getSteps().get(getStepId().getValue()));
+        steps.addSource(recipesLiveData, recipes -> {
+            if (recipes != null &&
+                    recipes.data != null) {
+                steps.setValue(recipes.data.get(recipeId).getSteps().get(getStepId().getValue()));
             }
         });
 
-        step.addSource(stepIdLiveData, stepdId -> {
+        steps.addSource(stepIdLiveData, stepId -> {
             Resource<List<Recipe>> recipesResource = getRecipes().getValue();
-            if (stepdId != null && recipesResource.data != null) {
-                step.setValue(recipesResource.data.get(recipeId).getSteps().get(stepdId));
+            if (recipesResource != null &&
+                    stepId != null &&
+                    recipesResource.data != null) {
+                steps.setValue(recipesResource.data.get(recipeId).getSteps().get(stepId));
             }
         });
     }
