@@ -50,8 +50,8 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
 
     private void populateRecyclerView() {
         recipeAdapter = new RecipeAdapter(this);
-        activityRecipeBinding.recyclerViewRecipeList.setHasFixedSize(true);
-        activityRecipeBinding.recyclerViewRecipeList.setAdapter(recipeAdapter);
+        activityRecipeBinding.activityRecipeListRecyclerView.setHasFixedSize(true);
+        activityRecipeBinding.activityRecipeListRecyclerView.setAdapter(recipeAdapter);
     }
 
     private void populateUI() {

@@ -7,25 +7,27 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.sonyamoisset.android.cake.R;
-import com.sonyamoisset.android.cake.databinding.DetailActivityIngredientListItemBinding;
+import com.sonyamoisset.android.cake.databinding.ActivityRecipeDetailIngredientListItemBinding;
 import com.sonyamoisset.android.cake.db.entity.Ingredient;
 
 import java.util.List;
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
+public class IngredientAdapter
+        extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
 
     private List<Ingredient> ingredients;
 
     class IngredientViewHolder extends RecyclerView.ViewHolder {
-        final DetailActivityIngredientListItemBinding binding;
+        final ActivityRecipeDetailIngredientListItemBinding
+                activityRecipeDetailIngredientListItemBinding;
 
-        IngredientViewHolder(DetailActivityIngredientListItemBinding binding) {
+        IngredientViewHolder(ActivityRecipeDetailIngredientListItemBinding binding) {
             super(binding.getRoot());
-            this.binding = binding;
+            this.activityRecipeDetailIngredientListItemBinding = binding;
         }
 
         void bind(Ingredient ingredient) {
-            binding.setIngredient(ingredient);
+            activityRecipeDetailIngredientListItemBinding.setIngredient(ingredient);
         }
     }
 
@@ -38,8 +40,10 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        DetailActivityIngredientListItemBinding binding = DataBindingUtil.inflate(layoutInflater,
-                R.layout.detail_activity_ingredient_list_item, parent, false);
+        ActivityRecipeDetailIngredientListItemBinding binding =
+                DataBindingUtil.inflate(layoutInflater,
+                        R.layout.activity_recipe_detail_ingredient_list_item,
+                        parent, false);
         return new IngredientViewHolder(binding);
     }
 
