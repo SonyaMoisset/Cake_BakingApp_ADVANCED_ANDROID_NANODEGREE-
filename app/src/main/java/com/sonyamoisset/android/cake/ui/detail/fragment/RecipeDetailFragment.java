@@ -15,9 +15,12 @@ import android.view.ViewGroup;
 import com.sonyamoisset.android.cake.R;
 import com.sonyamoisset.android.cake.databinding.FragmentRecipeDetailBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
+import com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity;
 import com.sonyamoisset.android.cake.ui.detail.RecipeDetailViewModel;
 import com.sonyamoisset.android.cake.ui.detail.adapter.IngredientAdapter;
 import com.sonyamoisset.android.cake.ui.detail.adapter.StepAdapter;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -25,16 +28,15 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class RecipeDetailFragment extends Fragment {
 
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
+    private static final String RECIPE_ID = "recipe_id";
 
-    private FragmentRecipeDetailBinding binding;
+    private FragmentRecipeDetailBinding fragmentRecipeDetailBinding;
     private RecipeDetailViewModel recipeDetailViewModel;
     private IngredientAdapter ingredientAdapter;
-    private StepAdapter stepAdapter;
     private Recipe recipe;
 
-    private static final String RECIPE_ID = "recipe_id";
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     @Override
     public void onAttach(Context context) {
@@ -48,43 +50,44 @@ public class RecipeDetailFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        binding =
+        fragmentRecipeDetailBinding =
                 DataBindingUtil.inflate(inflater,
                         R.layout.fragment_recipe_detail, container, false);
-        binding.fragmentRecipeIngredientsDetailRecyclerView.setHasFixedSize(true);
-        binding.fragmentRecipeStepsDetailRecyclerView.setHasFixedSize(true);
-        return binding.getRoot();
+
+        fragmentRecipeDetailBinding
+                .fragmentRecipeIngredientsDetailRecyclerView.setHasFixedSize(true);
+
+        return fragmentRecipeDetailBinding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final int recipeId = getArguments().getInt(RECIPE_ID) - 1;
+        final int recipeId = Objects.requireNonNull(getArguments()).getInt(RECIPE_ID) - 1;
 
         ingredientAdapter = new IngredientAdapter();
-        binding.fragmentRecipeIngredientsDetailRecyclerView.setAdapter(ingredientAdapter);
+        fragmentRecipeDetailBinding
+                .fragmentRecipeIngredientsDetailRecyclerView.setAdapter(ingredientAdapter);
 
-        stepAdapter = new StepAdapter();
-        binding.fragmentRecipeStepsDetailRecyclerView.setAdapter(stepAdapter);
 
         recipeDetailViewModel =
-                ViewModelProviders.of(getActivity(), viewModelFactory)
+                ViewModelProviders.of(Objects.requireNonNull(getActivity()), viewModelFactory)
                         .get(RecipeDetailViewModel.class);
         recipeDetailViewModel.setRecipeId(recipeId);
 
         recipeDetailViewModel.getRecipes().observe(this, recipesDetailViews -> {
-            if (recipesDetailViews.data != null) {
+            if (recipesDetailViews != null && recipesDetailViews.data != null) {
                 recipe = recipesDetailViews.data.get(recipeId);
-                populateViewModel();
+                populateUI();
             }
         });
     }
 
-    private void populateViewModel() {
-        getActivity().setTitle(recipe.getName());
+    public void onClickNextStep() {
+        int currentStep = fragmentRecipeDetailBinding.stepper.getCurrentStep();
+        fragmentRecipeDetailBinding.stepper.setCurrentStep(currentStep + 1);
 
-        ingredientAdapter.setIngredientList(recipe.getIngredients());
-        stepAdapter.setStepList(recipe.getSteps());
+        recipeDetailViewModel.nextStepId();
     }
 
     public static RecipeDetailFragment recipeDetailFragmentFor(int recipeId) {
@@ -93,5 +96,19 @@ public class RecipeDetailFragment extends Fragment {
         args.putInt(RECIPE_ID, recipeId);
         recipeDetailFragment.setArguments(args);
         return recipeDetailFragment;
+    }
+
+    private void populateUI() {
+        Objects.requireNonNull(getActivity()).setTitle(recipe.getName());
+
+        ingredientAdapter.setIngredientList(recipe.getIngredients());
+
+        StepAdapter stepAdapter = new StepAdapter(recipe.getSteps(),
+                (RecipeDetailActivity) getActivity(),
+                this);
+        fragmentRecipeDetailBinding.stepper.setStepperAdapter(stepAdapter);
+
+        recipeDetailViewModel.getStepId().observe(this,
+                fragmentRecipeDetailBinding.stepper::setCurrentStep);
     }
 }
