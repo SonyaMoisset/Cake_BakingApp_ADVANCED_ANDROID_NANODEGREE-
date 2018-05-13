@@ -16,13 +16,13 @@ public class AppExecutors {
     private final Executor diskIO;
     private final Executor mainThread;
 
-    public AppExecutors(Executor diskIO, Executor mainThread) {
+    private AppExecutors(Executor diskIO, Executor mainThread) {
         this.diskIO = diskIO;
         this.mainThread = mainThread;
     }
 
     @Inject
-    public AppExecutors() {
+    AppExecutors() {
         this(Executors.newSingleThreadExecutor(), new MainThreadExecutor());
     }
 
