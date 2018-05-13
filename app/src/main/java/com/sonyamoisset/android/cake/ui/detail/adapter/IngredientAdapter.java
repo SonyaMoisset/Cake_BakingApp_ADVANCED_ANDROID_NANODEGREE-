@@ -15,7 +15,6 @@ import java.util.List;
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
 
     private List<Ingredient> ingredients;
-    private DetailActivityIngredientListItemBinding binding;
 
     class IngredientViewHolder extends RecyclerView.ViewHolder {
         final DetailActivityIngredientListItemBinding binding;
@@ -39,9 +38,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        binding =
-                DataBindingUtil.inflate(layoutInflater,
-                        R.layout.detail_activity_ingredient_list_item, parent, false);
+        DetailActivityIngredientListItemBinding binding = DataBindingUtil.inflate(layoutInflater,
+                R.layout.detail_activity_ingredient_list_item, parent, false);
         return new IngredientViewHolder(binding);
     }
 
