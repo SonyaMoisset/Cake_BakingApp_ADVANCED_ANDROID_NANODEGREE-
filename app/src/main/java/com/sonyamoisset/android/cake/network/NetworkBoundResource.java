@@ -14,15 +14,17 @@ import com.sonyamoisset.android.cake.vo.Resource;
 import java.util.Objects;
 
 public abstract class NetworkBoundResource<ResultType, RequestType> {
-    private final AppExecutors appExecutors;
 
+    private final AppExecutors appExecutors;
     private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
 
     @MainThread
-    public NetworkBoundResource(AppExecutors appExecutors) {
+    protected NetworkBoundResource(AppExecutors appExecutors) {
+
         this.appExecutors = appExecutors;
         result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();
+
         result.addSource(dbSource, data -> {
             result.removeSource(dbSource);
             if (shouldFetch(data)) {
@@ -35,19 +37,22 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     @MainThread
     private void setValue(Resource<ResultType> newValue) {
+
         if (!Objects.equals(result.getValue(), newValue)) {
             result.setValue(newValue);
         }
     }
 
     private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
+
         LiveData<ApiResponse<RequestType>> apiResponse = createCall();
         result.addSource(dbSource, newData -> setValue(Resource.loading(newData)));
+
         result.addSource(apiResponse, response -> {
             result.removeSource(apiResponse);
             result.removeSource(dbSource);
 
-            if (response.isSuccessful()) {
+            if (Objects.requireNonNull(response).isSuccessful()) {
                 appExecutors.diskIO().execute(() -> {
                     saveCallResult(processResponse(response));
                     appExecutors.mainThread().execute(() ->
@@ -67,7 +72,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     @WorkerThread
-    protected RequestType processResponse(ApiResponse<RequestType> response) {
+    private RequestType processResponse(ApiResponse<RequestType> response) {
         return response.body;
     }
 
