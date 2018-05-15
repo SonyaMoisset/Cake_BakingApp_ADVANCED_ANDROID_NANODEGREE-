@@ -5,14 +5,17 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.sonyamoisset.android.cake.R;
 import com.sonyamoisset.android.cake.databinding.ActivityRecipeBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
 import com.sonyamoisset.android.cake.ui.common.ClickHandler;
 import com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity;
+import com.sonyamoisset.android.cake.utils.IdlingResource;
 import com.sonyamoisset.android.cake.vo.Status;
 
 import javax.inject.Inject;
@@ -25,6 +28,7 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
 
     private ActivityRecipeBinding activityRecipeBinding;
     private RecipeAdapter recipeAdapter;
+    private IdlingResource idlingResource;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -39,6 +43,7 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
 
         populateRecyclerView();
         populateUI();
+        getIdlingResource();
     }
 
     @Override
@@ -46,6 +51,15 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
         Intent intent = new Intent(this, RecipeDetailActivity.class);
         intent.putExtra(RECIPE_ID, recipe.getId());
         startActivity(intent);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (idlingResource == null) {
+            idlingResource = new IdlingResource();
+        }
+        return idlingResource;
     }
 
     private void populateRecyclerView() {
@@ -61,6 +75,9 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
         recipeViewModel.getRecipes().observe(this, recipesViews -> {
             if (recipesViews != null && recipesViews.status == Status.SUCCESS) {
                 recipeAdapter.setRecipeList(recipesViews.data);
+            } else if (recipesViews != null && recipesViews.status == Status.ERROR) {
+                Toast.makeText(this, "No internet connection"
+                        , Toast.LENGTH_LONG).show();
             }
         });
     }
