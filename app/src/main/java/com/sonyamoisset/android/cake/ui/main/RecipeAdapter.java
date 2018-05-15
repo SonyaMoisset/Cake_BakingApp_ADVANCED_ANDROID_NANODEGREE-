@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.sonyamoisset.android.cake.R;
-import com.sonyamoisset.android.cake.databinding.ActivityRecipeDetailListItemBinding;
+import com.sonyamoisset.android.cake.databinding.ActivityRecipeListItemBinding;
 import com.sonyamoisset.android.cake.db.entity.Recipe;
 import com.sonyamoisset.android.cake.ui.common.ClickHandler;
 import com.squareup.picasso.Picasso;
@@ -17,14 +17,14 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    private ActivityRecipeDetailListItemBinding activityRecipeDetailListItemBinding;
+    private ActivityRecipeListItemBinding activityRecipeListItemBinding;
     private List<Recipe> recipes;
     private final ClickHandler<Recipe> recipeClickHandler;
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
-        final ActivityRecipeDetailListItemBinding activityRecipeListItemBinding;
+        final ActivityRecipeListItemBinding activityRecipeListItemBinding;
 
-        RecipeViewHolder(ActivityRecipeDetailListItemBinding binding) {
+        RecipeViewHolder(ActivityRecipeListItemBinding binding) {
             super(binding.getRoot());
             this.activityRecipeListItemBinding = binding;
         }
@@ -49,12 +49,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
-        activityRecipeDetailListItemBinding =
+        activityRecipeListItemBinding =
                 DataBindingUtil.inflate(layoutInflater,
-                        R.layout.activity_recipe_detail_list_item, parent, false);
-        activityRecipeDetailListItemBinding.setHandler(recipeClickHandler);
+                        R.layout.activity_recipe_list_item, parent, false);
+        activityRecipeListItemBinding.setHandler(recipeClickHandler);
 
-        return new RecipeViewHolder(activityRecipeDetailListItemBinding);
+        return new RecipeViewHolder(activityRecipeListItemBinding);
     }
 
     @Override
@@ -66,9 +66,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         if (!TextUtils.isEmpty(recipe.getImage())) {
             Picasso.get()
                     .load(recipe.getImage())
-                    .into(activityRecipeDetailListItemBinding.activityRecipeListItemPlaceholderImage);
+                    .into(activityRecipeListItemBinding.activityRecipeListItemPlaceholderImage);
         } else {
-            activityRecipeDetailListItemBinding.
+            activityRecipeListItemBinding.
                     activityRecipeListItemPlaceholderImage.setImageResource(R.drawable.cake);
         }
 
