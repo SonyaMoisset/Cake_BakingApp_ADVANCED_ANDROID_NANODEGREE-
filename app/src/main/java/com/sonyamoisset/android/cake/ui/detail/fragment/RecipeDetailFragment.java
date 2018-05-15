@@ -1,7 +1,9 @@
 package com.sonyamoisset.android.cake.ui.detail.fragment;
 
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity;
 import com.sonyamoisset.android.cake.ui.detail.RecipeDetailViewModel;
 import com.sonyamoisset.android.cake.ui.detail.adapter.IngredientAdapter;
 import com.sonyamoisset.android.cake.ui.detail.adapter.StepAdapter;
+import com.sonyamoisset.android.cake.ui.widget.CakePreferenceUtils;
+import com.sonyamoisset.android.cake.ui.widget.CakeWidget;
 
 import java.util.Objects;
 
@@ -53,6 +57,7 @@ public class RecipeDetailFragment extends Fragment {
         fragmentRecipeDetailBinding =
                 DataBindingUtil.inflate(inflater,
                         R.layout.fragment_recipe_detail, container, false);
+        fragmentRecipeDetailBinding.setHandler(this);
 
         fragmentRecipeDetailBinding
                 .fragmentRecipeIngredientsDetailRecyclerView.setHasFixedSize(true);
@@ -83,12 +88,6 @@ public class RecipeDetailFragment extends Fragment {
         });
     }
 
-    public void onClickNextStep() {
-        int currentStep = fragmentRecipeDetailBinding.stepper.getCurrentStep();
-        fragmentRecipeDetailBinding.stepper.setCurrentStep(currentStep + 1);
-
-        recipeDetailViewModel.nextStepId();
-    }
 
     public static RecipeDetailFragment recipeDetailFragmentFor(int recipeId) {
         RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
@@ -96,6 +95,26 @@ public class RecipeDetailFragment extends Fragment {
         args.putInt(RECIPE_ID, recipeId);
         recipeDetailFragment.setArguments(args);
         return recipeDetailFragment;
+    }
+
+    public void onClickNextStep() {
+        int currentStep = fragmentRecipeDetailBinding.stepper.getCurrentStep();
+        fragmentRecipeDetailBinding.stepper.setCurrentStep(currentStep + 1);
+
+        recipeDetailViewModel.nextStepId();
+    }
+
+    public void onClickAddWidgetToHomeScreen() {
+        CakePreferenceUtils.setWidgetTitle(getContext(), recipe.getName());
+        CakePreferenceUtils.setWidgetRecipeId(getContext(), recipe.getId());
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+                new ComponentName(getContext(), CakeWidget.class));
+
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredients_list);
+
+        CakeWidget.updateCakeWidgetWith(getContext(), appWidgetManager, appWidgetIds);
     }
 
     private void populateUI() {
