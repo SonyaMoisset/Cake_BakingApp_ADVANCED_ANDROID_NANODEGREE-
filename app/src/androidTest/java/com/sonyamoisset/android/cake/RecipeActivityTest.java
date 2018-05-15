@@ -42,19 +42,19 @@ public class RecipeActivityTest {
     }
 
     @Test
-    public void onLaunch_recipeListIsDisplayed() {
+    public void onLaunchRecipeListIsDisplayed() {
         onView(withId(R.id.activity_recipe_list_recycler_view))
                 .check(matches(isDisplayed()));
     }
 
     @Test
-    public void onLaunch_recipeListHasMinimumOneRecipe() {
+    public void onLaunchRecipeListHasMinimumOneRecipe() {
         onView(withId(R.id.activity_recipe_list_recycler_view))
                 .check(matches(hasMinimumChildCount(MINIMUM_NUMBER_OF_RECIPES)));
     }
 
     @Test
-    public void onClick_firstEntrySendsCorrectIntent() {
+    public void onClickFirstEntrySendsCorrectIntent() {
 
         onView(withId(R.id.activity_recipe_list_recycler_view))
                 .perform(actionOnItemAtPosition(FIRST_INDEX, click()));
@@ -63,7 +63,7 @@ public class RecipeActivityTest {
     }
 
     @Test
-    public void onClick_firstEntryNavigatesToDetailActivityWithMasterFragment() {
+    public void onClickFirstEntryNavigatesToDetailActivityWithMasterFragment() {
         onView(withId(R.id.activity_recipe_list_recycler_view))
                 .perform(actionOnItemAtPosition(FIRST_INDEX, click()));
 
