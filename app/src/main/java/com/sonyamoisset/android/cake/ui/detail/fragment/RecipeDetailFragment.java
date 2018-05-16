@@ -113,7 +113,7 @@ public class RecipeDetailFragment extends Fragment {
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                 new ComponentName(Objects.requireNonNull(getContext()), CakeWidget.class));
 
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredients_list);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredients_list_items);
 
         CakeWidget.updateCakeWidgetWith(getContext(), appWidgetManager, appWidgetIds);
     }
