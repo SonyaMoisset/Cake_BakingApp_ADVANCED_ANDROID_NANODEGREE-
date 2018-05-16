@@ -21,7 +21,8 @@
         android:layout_marginEnd="@dimen/margin_8dp"
         android:layout_marginStart="@dimen/margin_8dp"
         android:layout_marginTop="@dimen/margin_16dp"
-        android:onClick="@{() ->  handler.onClick(recipe)}">
+        android:onClick="@{() ->  handler.onClick(recipe)}"
+        app:cardBackgroundColor="@color/colorSecondary">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_16dp"
                 android:layout_marginStart="@dimen/margin_16dp"
-                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/padding_4dp"
                 android:text="@{String.valueOf(recipe.getServings())}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorPrimaryDark"
@@ -75,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_16dp"
                 android:layout_marginStart="@dimen/margin_12dp"
-                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/padding_4dp"
                 android:text="@string/activity_recipe_servings"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorPrimaryDark"
@@ -90,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_16dp"
                 android:layout_marginStart="@dimen/margin_16dp"
-                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/padding_4dp"
                 android:text="@{String.valueOf(recipe.getSteps().size())}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorPrimaryDark"
@@ -104,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_16dp"
                 android:layout_marginStart="@dimen/margin_4dp"
-                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/padding_4dp"
                 android:text="@string/activity_recipe_steps"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorPrimaryDark"
