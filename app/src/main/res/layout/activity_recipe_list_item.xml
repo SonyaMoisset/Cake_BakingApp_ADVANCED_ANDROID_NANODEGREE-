@@ -48,6 +48,7 @@
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:text="@{recipe.getName()}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toTopOf="@+id/activity_recipe_list_item_servings_count"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +64,7 @@
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:text="@{String.valueOf(recipe.getServings())}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_recipe_list_item_name"/>
@@ -76,6 +78,7 @@
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:text="@string/activity_recipe_servings"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/activity_recipe_list_item_servings_count"
                 app:layout_constraintTop_toBottomOf="@+id/activity_recipe_list_item_name"/>
@@ -90,6 +93,7 @@
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:text="@{String.valueOf(recipe.getSteps().size())}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/activity_recipe_list_item_servings_text"
                 app:layout_constraintTop_toBottomOf="@+id/activity_recipe_list_item_name"/>
@@ -103,6 +107,7 @@
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:text="@string/activity_recipe_steps"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/activity_recipe_list_item_ingredients_steps_count"
                 app:layout_constraintTop_toBottomOf="@+id/activity_recipe_list_item_name"/>
