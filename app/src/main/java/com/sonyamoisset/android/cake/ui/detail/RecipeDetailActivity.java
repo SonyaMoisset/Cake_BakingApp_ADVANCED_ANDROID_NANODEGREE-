@@ -36,7 +36,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements HasSuppor
         setContentView(R.layout.activity_recipe_detail);
 
         if (savedInstanceState == null) {
-            isTwoPane = findViewById(R.id.recipe_video_fragment_section) != null;
+            isTwoPane = findViewById(R.id.activity_recipe_video_fragment_section) != null;
 
             int recipeId = getIntent().getIntExtra(RECIPE_ID, 0);
 
@@ -44,14 +44,14 @@ public class RecipeDetailActivity extends AppCompatActivity implements HasSuppor
                     RecipeDetailFragment.recipeDetailFragmentFor(recipeId);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.recipe_detail_fragment_section, recipeDetailFragment)
+                    .replace(R.id.activity_recipe_detail_fragment_section, recipeDetailFragment)
                     .commit();
 
             if (isTwoPane) {
                 RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.recipe_video_fragment_section, recipeVideoFragment)
+                        .replace(R.id.activity_recipe_video_fragment_section, recipeVideoFragment)
                         .commit();
             }
         }
@@ -67,7 +67,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements HasSuppor
             getSupportFragmentManager()
                     .beginTransaction()
                     .addToBackStack(getString(R.string.add_to_back_stack_key))
-                    .replace(R.id.recipe_detail_fragment_section, new RecipeVideoFragment())
+                    .replace(R.id.activity_recipe_detail_fragment_section,
+                            new RecipeVideoFragment())
                     .commit();
         }
     }

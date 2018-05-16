@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.sonyamoisset.android.cake.R;
-import com.sonyamoisset.android.cake.databinding.StepperBinding;
+import com.sonyamoisset.android.cake.databinding.ActivityRecipeDetailVerticalStepperBinding;
 import com.sonyamoisset.android.cake.db.entity.Step;
 import com.sonyamoisset.android.cake.ui.detail.RecipeDetailActivity;
 import com.sonyamoisset.android.cake.ui.detail.fragment.RecipeDetailFragment;
@@ -53,16 +53,17 @@ public class StepAdapter implements IStepperAdapter {
     public View onCreateCustomView(int index, Context context, VerticalStepperItemView parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        StepperBinding binding =
+        ActivityRecipeDetailVerticalStepperBinding activityRecipeDetailVerticalStepperBinding =
                 DataBindingUtil.inflate(layoutInflater,
-                        R.layout.stepper, parent, false);
+                        R.layout.activity_recipe_detail_vertical_stepper,
+                        parent, false);
 
-        binding.setWatchStepHandler(recipeDetailActivity);
-        binding.setNextStepHandler(recipeDetailFragment);
-        binding.setStep(steps.get(index));
-        binding.setStepSize(steps.size());
+        activityRecipeDetailVerticalStepperBinding.setWatchStepHandler(recipeDetailActivity);
+        activityRecipeDetailVerticalStepperBinding.setNextStepHandler(recipeDetailFragment);
+        activityRecipeDetailVerticalStepperBinding.setStep(steps.get(index));
+        activityRecipeDetailVerticalStepperBinding.setStepSize(steps.size());
 
-        return binding.getRoot();
+        return activityRecipeDetailVerticalStepperBinding.getRoot();
     }
 
     @Override

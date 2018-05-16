@@ -98,11 +98,12 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     public void onClickNextStep() {
-        int currentStep = fragmentRecipeDetailBinding.stepper.getCurrentStep();
-        fragmentRecipeDetailBinding.stepper.setCurrentStep(currentStep + 1);
+        int currentStep = fragmentRecipeDetailBinding.fragmentRecipeDetailVerticalStepperView.getCurrentStep();
+        fragmentRecipeDetailBinding.fragmentRecipeDetailVerticalStepperView.setCurrentStep(currentStep + 1);
 
         recipeDetailViewModel.nextStepId();
     }
+
 
     public void onClickAddWidgetToHomeScreen() {
         CakePreferenceUtils.setWidgetTitle(getContext(), recipe.getName());
@@ -110,7 +111,7 @@ public class RecipeDetailFragment extends Fragment {
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
-                new ComponentName(getContext(), CakeWidget.class));
+                new ComponentName(Objects.requireNonNull(getContext()), CakeWidget.class));
 
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredients_list);
 
@@ -125,9 +126,11 @@ public class RecipeDetailFragment extends Fragment {
         StepAdapter stepAdapter = new StepAdapter(recipe.getSteps(),
                 (RecipeDetailActivity) getActivity(),
                 this);
-        fragmentRecipeDetailBinding.stepper.setStepperAdapter(stepAdapter);
 
-        recipeDetailViewModel.getStepId().observe(this,
-                fragmentRecipeDetailBinding.stepper::setCurrentStep);
+        fragmentRecipeDetailBinding
+                .fragmentRecipeDetailVerticalStepperView.setStepperAdapter(stepAdapter);
+
+        recipeDetailViewModel.getStepId().observe(this, fragmentRecipeDetailBinding
+                .fragmentRecipeDetailVerticalStepperView::setCurrentStep);
     }
 }

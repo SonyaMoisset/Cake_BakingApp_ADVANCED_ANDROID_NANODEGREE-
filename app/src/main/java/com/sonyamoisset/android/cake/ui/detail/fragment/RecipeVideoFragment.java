@@ -166,19 +166,26 @@ public class RecipeVideoFragment extends Fragment {
 
         String videoUrl = step.getVideoURL();
         if (!videoUrl.isEmpty()) {
-            fragmentRecipeVideoBinding.imageViewPlayer.setVisibility(View.GONE);
-            fragmentRecipeVideoBinding.playerView.setVisibility(View.VISIBLE);
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerPlaceholderImage.setVisibility(View.GONE);
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerView.setVisibility(View.VISIBLE);
             initializePlayer(Uri.parse(videoUrl));
         } else {
-            fragmentRecipeVideoBinding.imageViewPlayer.setVisibility(View.VISIBLE);
-            fragmentRecipeVideoBinding.playerView.setVisibility(View.GONE);
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerPlaceholderImage.setVisibility(View.VISIBLE);
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerView.setVisibility(View.GONE);
 
             if (!TextUtils.isEmpty(step.getThumbnailURL())) {
                 Picasso.get().load(step.getThumbnailURL())
                         .placeholder(R.drawable.cake)
-                        .into(fragmentRecipeVideoBinding.imageViewPlayer);
+                        .into(fragmentRecipeVideoBinding
+                                .fragmentRecipeVideoExoplayerPlaceholderImage);
             } else {
-                fragmentRecipeVideoBinding.imageViewPlayer.setImageResource(R.drawable.cake);
+                fragmentRecipeVideoBinding
+                        .fragmentRecipeVideoExoplayerPlaceholderImage
+                        .setImageResource(R.drawable.cake);
             }
         }
     }
@@ -193,7 +200,7 @@ public class RecipeVideoFragment extends Fragment {
                     new DefaultTrackSelector(videoTrackSelectionFactory);
 
             simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
-            fragmentRecipeVideoBinding.playerView.setPlayer(simpleExoPlayer);
+            fragmentRecipeVideoBinding.fragmentRecipeVideoExoplayerView.setPlayer(simpleExoPlayer);
         }
 
         DataSource.Factory dataSourceFactory =
