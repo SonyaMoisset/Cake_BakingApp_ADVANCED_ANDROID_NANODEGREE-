@@ -30,7 +30,9 @@ public class RecipeRepository {
     private MediatorLiveData<List<Recipe>> recipesLiveData;
 
     @Inject
-    RecipeRepository(CakeWebService cakeWebService, RecipeDao recipeDao, AppExecutors appExecutors) {
+    RecipeRepository(CakeWebService cakeWebService,
+                     RecipeDao recipeDao,
+                     AppExecutors appExecutors) {
         this.cakeWebService = cakeWebService;
         this.recipeDao = recipeDao;
         this.appExecutors = appExecutors;

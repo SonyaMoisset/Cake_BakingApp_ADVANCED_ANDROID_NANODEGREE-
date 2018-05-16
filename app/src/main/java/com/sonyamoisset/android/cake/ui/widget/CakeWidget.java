@@ -26,7 +26,7 @@ public class CakeWidget extends AppWidgetProvider {
                     new Intent(context, RecipeActivity.class), 0);
 
             RemoteViews remoteViews =
-                    new RemoteViews(context.getPackageName(), R.layout.cake_widget);
+                    new RemoteViews(context.getPackageName(), R.layout.widget_cake_layout);
 
             remoteViews.setTextViewText(R.id.widget_ingredients_list_title,
                     CakePreferenceUtils.getWidgetTitle(context));

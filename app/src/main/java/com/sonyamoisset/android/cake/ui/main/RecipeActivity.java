@@ -76,8 +76,9 @@ public class RecipeActivity extends AppCompatActivity implements ClickHandler<Re
             if (recipesViews != null && recipesViews.status == Status.SUCCESS) {
                 recipeAdapter.setRecipeList(recipesViews.data);
             } else if (recipesViews != null && recipesViews.status == Status.ERROR) {
-                Toast.makeText(this, "No internet connection"
-                        , Toast.LENGTH_LONG).show();
+                Toast.makeText(this,
+                        R.string.activity_recipe_no_internet_connection_toast_message,
+                        Toast.LENGTH_LONG).show();
             }
         });
     }

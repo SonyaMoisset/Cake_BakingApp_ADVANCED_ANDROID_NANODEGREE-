@@ -74,7 +74,6 @@ public class RecipeDetailFragment extends Fragment {
         fragmentRecipeDetailBinding
                 .fragmentRecipeIngredientsDetailRecyclerView.setAdapter(ingredientAdapter);
 
-
         recipeDetailViewModel =
                 ViewModelProviders.of(Objects.requireNonNull(getActivity()), viewModelFactory)
                         .get(RecipeDetailViewModel.class);
@@ -98,8 +97,11 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     public void onClickNextStep() {
-        int currentStep = fragmentRecipeDetailBinding.fragmentRecipeDetailVerticalStepperView.getCurrentStep();
-        fragmentRecipeDetailBinding.fragmentRecipeDetailVerticalStepperView.setCurrentStep(currentStep + 1);
+        int currentStep =
+                fragmentRecipeDetailBinding
+                        .fragmentRecipeDetailVerticalStepperView.getCurrentStep();
+        fragmentRecipeDetailBinding
+                .fragmentRecipeDetailVerticalStepperView.setCurrentStep(currentStep + 1);
 
         recipeDetailViewModel.nextStepId();
     }
@@ -113,7 +115,8 @@ public class RecipeDetailFragment extends Fragment {
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                 new ComponentName(Objects.requireNonNull(getContext()), CakeWidget.class));
 
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredients_list_items);
+        appWidgetManager
+                .notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredients_list_items);
 
         CakeWidget.updateCakeWidgetWith(getContext(), appWidgetManager, appWidgetIds);
     }

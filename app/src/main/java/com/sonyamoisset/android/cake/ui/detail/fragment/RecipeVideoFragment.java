@@ -112,18 +112,10 @@ public class RecipeVideoFragment extends Fragment {
             }
         }
 
-        if (isFullScreenModeForMobile()) {
-            Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity()))
-                    .getSupportActionBar()).hide();
-
-            getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_FULLSCREEN |
-                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
+        populateFullScreenModeForMobile();
 
         recipeDetailViewModel =
-                ViewModelProviders.of(getActivity(), viewModelFactory)
+                ViewModelProviders.of(Objects.requireNonNull(getActivity()), viewModelFactory)
                         .get(RecipeDetailViewModel.class);
 
         recipeDetailViewModel.getSteps().observe(this, this::populateUI);
@@ -154,42 +146,6 @@ public class RecipeVideoFragment extends Fragment {
         recipeDetailViewModel.previousStepId();
     }
 
-    private void populateUI(Step step) {
-
-        if (stepNumber == -1 || stepNumber != step.getId()) {
-            resetVideo();
-            stepNumber = step.getId();
-        }
-
-        fragmentRecipeVideoBinding.setStepSize(recipeDetailViewModel.getStepSize());
-        fragmentRecipeVideoBinding.setStep(step);
-
-        String videoUrl = step.getVideoURL();
-        if (!videoUrl.isEmpty()) {
-            fragmentRecipeVideoBinding
-                    .fragmentRecipeVideoExoplayerPlaceholderImage.setVisibility(View.GONE);
-            fragmentRecipeVideoBinding
-                    .fragmentRecipeVideoExoplayerView.setVisibility(View.VISIBLE);
-            initializePlayer(Uri.parse(videoUrl));
-        } else {
-            fragmentRecipeVideoBinding
-                    .fragmentRecipeVideoExoplayerPlaceholderImage.setVisibility(View.VISIBLE);
-            fragmentRecipeVideoBinding
-                    .fragmentRecipeVideoExoplayerView.setVisibility(View.GONE);
-
-            if (!TextUtils.isEmpty(step.getThumbnailURL())) {
-                Picasso.get().load(step.getThumbnailURL())
-                        .placeholder(R.drawable.cake)
-                        .into(fragmentRecipeVideoBinding
-                                .fragmentRecipeVideoExoplayerPlaceholderImage);
-            } else {
-                fragmentRecipeVideoBinding
-                        .fragmentRecipeVideoExoplayerPlaceholderImage
-                        .setImageResource(R.drawable.cake);
-            }
-        }
-    }
-
     private void initializePlayer(Uri mediaUri) {
         if (simpleExoPlayer == null) {
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -203,6 +159,10 @@ public class RecipeVideoFragment extends Fragment {
             fragmentRecipeVideoBinding.fragmentRecipeVideoExoplayerView.setPlayer(simpleExoPlayer);
         }
 
+        populateSimpleExoPlayer(mediaUri);
+    }
+
+    private void populateSimpleExoPlayer(Uri mediaUri) {
         DataSource.Factory dataSourceFactory =
                 new DefaultDataSourceFactory(Objects.requireNonNull(getContext()),
                         Util.getUserAgent(getContext(), getString(R.string.app_name)));
@@ -231,6 +191,59 @@ public class RecipeVideoFragment extends Fragment {
 
         if (simpleExoPlayer != null) {
             simpleExoPlayer.stop();
+        }
+    }
+
+    private void showVideoOrImageOrThumbnail(Step step) {
+        String videoUrl = step.getVideoURL();
+        if (!videoUrl.isEmpty()) {
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerPlaceholderImage.setVisibility(View.GONE);
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerView.setVisibility(View.VISIBLE);
+            initializePlayer(Uri.parse(videoUrl));
+        } else {
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerPlaceholderImage.setVisibility(View.VISIBLE);
+            fragmentRecipeVideoBinding
+                    .fragmentRecipeVideoExoplayerView.setVisibility(View.GONE);
+
+            if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+                Picasso.get()
+                        .load(step.getThumbnailURL())
+                        .placeholder(R.drawable.cake)
+                        .into(fragmentRecipeVideoBinding
+                                .fragmentRecipeVideoExoplayerPlaceholderImage);
+            } else {
+                fragmentRecipeVideoBinding
+                        .fragmentRecipeVideoExoplayerPlaceholderImage
+                        .setImageResource(R.drawable.cake);
+            }
+        }
+    }
+
+    private void populateUI(Step step) {
+
+        if (stepNumber == -1 || stepNumber != step.getId()) {
+            resetVideo();
+            stepNumber = step.getId();
+        }
+
+        fragmentRecipeVideoBinding.setStepSize(recipeDetailViewModel.getStepSize());
+        fragmentRecipeVideoBinding.setStep(step);
+
+        showVideoOrImageOrThumbnail(step);
+    }
+
+    private void populateFullScreenModeForMobile() {
+        if (isFullScreenModeForMobile()) {
+            Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity()))
+                    .getSupportActionBar()).hide();
+
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 

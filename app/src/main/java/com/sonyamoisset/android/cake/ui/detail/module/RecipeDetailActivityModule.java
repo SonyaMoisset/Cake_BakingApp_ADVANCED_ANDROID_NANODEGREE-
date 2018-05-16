@@ -8,6 +8,9 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class RecipeDetailActivityModule {
 
-    @ContributesAndroidInjector(modules = RecipeDetailFragmentModule.class)
+    @ContributesAndroidInjector(modules = {
+            RecipeDetailFragmentModule.class,
+            RecipeVideoFragmentModule.class
+    })
     abstract RecipeDetailActivity contributeRecipeDetailActivity();
 }

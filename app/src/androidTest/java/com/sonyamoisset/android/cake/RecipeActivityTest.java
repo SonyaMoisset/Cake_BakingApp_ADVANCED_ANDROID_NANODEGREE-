@@ -27,7 +27,7 @@ public class RecipeActivityTest {
 
     private final static int MINIMUM_NUMBER_OF_RECIPES = 1;
     private final static int FIRST_INDEX = 0;
-    private final static String NUTELLA = "Nutella Pie";
+    private final static String NUTELLA_PIE = "Nutella Pie";
 
     private IdlingResource idlingResource;
 
@@ -59,7 +59,7 @@ public class RecipeActivityTest {
         onView(withId(R.id.activity_recipe_list_recycler_view))
                 .perform(actionOnItemAtPosition(FIRST_INDEX, click()));
 
-        onView(withText(NUTELLA)).check(matches(isDisplayed()));
+        onView(withText(NUTELLA_PIE)).check(matches(isDisplayed()));
     }
 
     @Test
