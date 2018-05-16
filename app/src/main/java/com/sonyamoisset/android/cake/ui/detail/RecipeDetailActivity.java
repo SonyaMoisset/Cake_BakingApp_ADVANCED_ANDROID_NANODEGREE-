@@ -57,11 +57,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements HasSuppor
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
     public void onClickStepVideo() {
         if (!isTwoPane) {
             getSupportFragmentManager()

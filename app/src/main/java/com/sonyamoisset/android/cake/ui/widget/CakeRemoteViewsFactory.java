@@ -18,9 +18,9 @@ import java.util.Locale;
 
 public class CakeRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private Context context;
+    private final Context context;
+    private final AppDatabase appDatabase;
     private List<String> ingredients;
-    private AppDatabase appDatabase;
 
     CakeRemoteViewsFactory(Context context) {
         this.context = context;
@@ -59,7 +59,6 @@ public class CakeRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
 
     @Override
     public void onDestroy() {
-
     }
 
     @Override
