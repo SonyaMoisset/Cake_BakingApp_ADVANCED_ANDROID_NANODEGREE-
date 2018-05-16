@@ -28,11 +28,11 @@ public class CakeWidget extends AppWidgetProvider {
             RemoteViews remoteViews =
                     new RemoteViews(context.getPackageName(), R.layout.cake_widget);
 
-            remoteViews.setTextViewText(R.id.widget_ingredients_title,
+            remoteViews.setTextViewText(R.id.widget_ingredients_list_title,
                     CakePreferenceUtils.getWidgetTitle(context));
-            remoteViews.setRemoteAdapter(R.id.widget_ingredients_list,
+            remoteViews.setRemoteAdapter(R.id.widget_ingredients_list_items,
                     CakeRemoteViewsService.getIntent(context));
-            remoteViews.setPendingIntentTemplate(R.id.widget_ingredients_list, pendingIntent);
+            remoteViews.setPendingIntentTemplate(R.id.widget_ingredients_list_items, pendingIntent);
             remoteViews.setOnClickPendingIntent(R.id.widget_cake_layout, pendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);

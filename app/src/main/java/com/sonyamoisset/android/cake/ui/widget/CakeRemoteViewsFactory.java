@@ -78,10 +78,10 @@ public class CakeRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
 
         RemoteViews remoteViews =
                 new RemoteViews(context.getPackageName(), R.layout.widget_ingredients_list);
-        remoteViews.setTextViewText(R.id.widget_item_textview, ingredients.get(position));
+        remoteViews.setTextViewText(R.id.widget_ingredients_items, ingredients.get(position));
 
         Intent fillInIntent = new Intent();
-        remoteViews.setOnClickFillInIntent(R.id.widget_item_textview, fillInIntent);
+        remoteViews.setOnClickFillInIntent(R.id.widget_ingredients_items, fillInIntent);
 
         return remoteViews;
     }
