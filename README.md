@@ -12,7 +12,7 @@ An app that allows users to follow recipes to make cakes.
 
 - On DetailActivity, the ingredients and steps are visibile for each recipe    
 
-<img width="350" src="https://github.com/SonyaMoisset/Cake_BakingApp_ADVANCED_ANDROID_NANODEGREE/blob/master/detail_activity_ingredients_steps.png">   <img width="550" src="https://github.com/SonyaMoisset/Cake_BakingApp_ADVANCED_ANDROID_NANODEGREE/blob/master/detail_activity_tablet_landscape.png">
+<img width="350" src="https://github.com/SonyaMoisset/Cake_BakingApp_ADVANCED_ANDROID_NANODEGREE/blob/master/detail_activity_ingredients_steps.png">   <img width="420" src="https://github.com/SonyaMoisset/Cake_BakingApp_ADVANCED_ANDROID_NANODEGREE/blob/master/detail_activity_tablet_landscape.png">
 
 - On DetailActivity, the user can follow a recipe through videos    
 
